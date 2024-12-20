@@ -1,0 +1,96 @@
+{% set base_namespace = namespace(stylesheets_to_load = [], scripts_to_load = [], loaded_component_dependencies = [], needed_component_dependencies = []) %}
+{% import "flask_material/base/components.html" as components with context %}
+
+{% block dependencies %}{% endblock %}
+
+{# Stylesheets #}
+{% do base_namespace.stylesheets_to_load.append("base/constants") %}
+{% do base_namespace.stylesheets_to_load.append("base/classes") %}
+{% do base_namespace.stylesheets_to_load.append("base/base") %}
+
+{% if base_namespace.left_bar_style == "navigation_drawer" or base_namespace.left_bar_style == "modal_navigation_drawer" or base_namespace.left_bar_style == "retractable_navigation_drawer" %}
+    {% do base_namespace.stylesheets_to_load.append("components/navigation_drawer") %}
+{% endif %}
+
+{# Scripts #}
+{% do base_namespace.scripts_to_load.append("base/base") %}
+
+{% if base_namespace.left_bar_style == "modal_navigation_drawer" or base_namespace.left_bar_style == "retractable_navigation_drawer" %}
+    {% do base_namespace.scripts_to_load.append("components/navigation_drawer") %}
+{% endif %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+
+        {% for stylesheet in base_namespace.stylesheets_to_load %}
+            <link rel="stylesheet" href="{{ url_for('flask_material.static', filename='style/' + stylesheet + '.css') }}">
+        {% endfor %}
+
+        {% for script in base_namespace.scripts_to_load %}
+            <script src="{{ url_for('flask_material.static', filename='js/' + script + '.js') }}" type="module"></script>
+        {% endfor %}
+
+        {% if logo_location %}
+            <link rel="icon" type="image/x-icon" href="{{ url_for('flask_material.static', filename=logo_location) }}">
+        {% endif %}
+
+        {% if title %}
+            <title>{{ title }}</title>
+        {% endif %}
+    </head>
+    <body class="font_body_medium no-initial-animation">
+        {# Left side bar #}
+        {% if self.left_side_bar() or base_namespace.left_bar_style %}
+            <div id="left_side_bar" class="{{ base_namespace.left_bar_style }} no-initial-animation">
+                {% if self.left_side_bar() %}
+                    {% block left_side_bar %}{% endblock %}
+                {% elif base_namespace.left_bar_style == "navigation_drawer" or base_namespace.left_bar_style == "retractable_navigation_drawer" or base_namespace.left_bar_style == "modal_navigation_drawer" %}
+                    <div id="base_navigation_drawer_title">
+                        {% block navigation_drawer_title %}{% endblock %}
+                    </div>
+                    <div id="base_navigation_drawer_content">
+                        {% block navigation_drawer %}{% endblock %}
+                    </div>
+                {% endif %}
+                </div>
+        {% endif %}
+
+        {% if base_namespace.left_bar_style == "modal_navigation_drawer" %}
+            <div id="modal_navigation_drawer_scrim"></div>
+        {% endif %}
+
+        {# Top Bar #}
+        {% if self.top_bar() %}
+            <div id="top_bar">
+                {% block top_bar %}{% endblock %}
+            </div>
+        {% endif %}
+
+        {# Content of the site #}
+        <div id="content" class="no-initial-animation">
+            {% if self.top_bar() %}
+                <div id="content_top_spacer"></div>
+            {% endif %}
+            {% block content %}{% endblock %}
+        </div>
+
+        {# Flashed messages #}
+        {% block flashed_messages %}
+            {% if get_flashed_messages() %}
+                <div id="flashed_message_wrapper">
+                    <div id="flashed_message">
+                        {% for message in get_flashed_messages() %}
+                            {{ message }}<br>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endblock %}
+    </body>
+</html>
+
+{% for dependency in base_namespace.needed_component_dependencies %}
+    {{ throw("Expected " + dependency + " dependency, but wasn't loaded!") if dependency not in base_namespace.loaded_component_dependencies }}
+{% endfor %}

@@ -1,0 +1,27 @@
+:root {
+    --drop-down-width: 200px;
+    --drop-down-height: 45px;
+}
+
+.base_drop_down_container {
+    --text-field-width: var(--drop-down-width);
+    --text-field-height: var(--drop-down-height);
+    --menu_width: var(--drop-down-width);
+}
+
+.base_drop_down_menu_wrapper {
+    position: absolute;
+    z-index: 9;
+}
+
+.base_drop_down_container .base_menu_container {
+    position: absolute;
+    transform: scaleY(0%);
+    transform-origin: top center;
+    transition: transform var(--animation-time-hover);
+    z-index: 10;
+}
+
+.base_drop_down_extended .base_menu_container {
+    transform: scaleY(100%);
+}

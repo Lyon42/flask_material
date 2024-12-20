@@ -1,0 +1,198 @@
+{% extends "flask_material/base/base.html" %}
+
+{% block dependencies %}
+    {{ components.load_component_dependencies(['button', 'switch', 'text_field', 'menu', 'drop_down']) }}
+{% endblock %}
+
+{% block content %}
+    {{ components.button_filled("toggle_dark_mode_button", "Toggle Dark Mode", click_callback="window.base_functions.toggle_dark_mode()") }}
+
+    <h1>Flask Material Design Components</h1>
+    <h2>Button</h2>
+    <div class="test_section_container">
+        <div class="test_container">
+            <h3>Elevated Button</h3>
+            {{ components.button_elevated("button_1", "Elevated Button") }}
+        </div>
+        <div class="test_container">
+            <h3>Elevated Button with icon</h3>
+            {{ components.button_elevated("button_2", "Elevated Button", icon="plus") }}
+        </div>
+        <div class="test_container">
+            <h3>Filled Button</h3>
+            {{ components.button_filled("button_3", "Filled Button") }}
+        </div>
+        <div class="test_container">
+            <h3>Filled Button with icon</h3>
+            {{ components.button_filled("button_4", "Filled Button", icon="plus") }}
+        </div>
+        <div class="test_container">
+            <h3>Outlined Button</h3>
+            {{ components.button_outlined("button_5", "Outlined Button") }}
+        </div>
+        <div class="test_container">
+            <h3>Outlined Button with icon</h3>
+            {{ components.button_outlined("button_6", "Outlined Button", icon="plus") }}
+        </div>
+        <div class="test_container">
+            <h3>Floating Action Button Small</h3>
+            {{ components.button_floating_action("button_7", "search", size="small") }}
+        </div>
+        <div class="test_container">
+            <h3>Floating Action Button Medium</h3>
+            {{ components.button_floating_action("button_8", "search", size="medium") }}
+        </div>
+        <div class="test_container">
+            <h3>Floating Action Button Large</h3>
+            {{ components.button_floating_action("button_9", "search", size="large") }}
+        </div>
+    </div>
+
+    <h2>Switch</h2>
+    <div class="test_section_container">
+        <div class="test_container">
+            <h3>Simple Switch</h3>
+            {{ components.switch("switch_1") }}
+        </div>
+        <div class="test_container">
+            <h3>Switch with static label</h3>
+            {{ components.switch("switch_2", labels=["Label",]) }}
+        </div>
+        <div class="test_container">
+            <h3>Switch with dynamic label</h3>
+            {{ components.switch("switch_3", labels=["Off", "On"]) }}
+        </div>
+        <div class="test_container">
+            <h3>Switch with static icon</h3>
+            {{ components.switch("switch_4", icons=["light_mode",]) }}
+        </div>
+        <div class="test_container">
+            <h3>Switch with dynamic icon</h3>
+            {{ components.switch("switch_5", icons=["light_mode", "dark_mode"]) }}
+        </div>
+        <div class="test_container">
+            <h3>Switch with only checked icon</h3>
+            {{ components.switch("switch_6", icons=[None, "dark_mode"]) }}
+        </div>
+    </div>
+
+    <h2>Text Field</h2>
+    <div class="test_section_container">
+        <div class="test_container">
+            <h3>Outlined Text Field</h3>
+            {{ components.text_field_outline("text_field_1") }}
+        </div>
+        <div class="test_container">
+            <h3>Outlined Text Field with label</h3>
+            {{ components.text_field_outline("text_field_2", label="Test") }}
+        </div>
+        <div class="test_container">
+            <h3>Outlined Text Field with label and leading icon</h3>
+            {{ components.text_field_outline("text_field_3", label="Label text", leading_icon="search") }}
+        </div>
+        <div class="test_container">
+            <h3>Outlined Text Field with label and trailing icon</h3>
+            {{ components.text_field_outline("text_field_4", label="Label text", trailing_icon="close") }}
+        </div>
+        <div class="test_container">
+            <h3>Outlined Text Field with label, leading icon and trailing icon</h3>
+            {{ components.text_field_outline("text_field_5", label="Label text", leading_icon="search", trailing_icon="close") }}
+        </div>
+        <div class="test_container" style="translate: 0 20px;">
+            <h3>Outlined Text Field with supporting text</h3>
+            {{ components.text_field_outline("text_field_6", supporting_text="Supporting text") }}
+        </div>
+    </div>
+
+    <h2>Menu and Drop-Down</h2>
+    <div class="test_section_container">
+        <div class="test_container">
+            <h3>Menu</h3>
+            {{ components.menu("menu_1", [{"id": "item1", "label": "Item 1"},
+                                          {"id": "item2", "label": "Item 2", "leading_icon": None, "trailing_icon": None},
+                                          {"id": "item3", "label": "Item 3", "leading_icon": "plus", "trailing_icon": "minus"},
+                                          {"id": "item4", "label": "Item 4", "trailing_icon": "minus"}], selected_item = "item3",
+                               callback = "function(item_id) {alert(item_id)}")}}
+        </div>
+        <div class="test_container">
+            <h3>Drop-Down</h3>
+            {{ components.drop_down("drop_down_1", [{"id": "item1", "label": "Item 1"},
+                                                    {"id": "item2", "label": "Item 2", "leading_icon": None, "trailing_icon": None},
+                                                    {"id": "item3", "label": "Item 3", "leading_icon": "plus", "trailing_icon": "minus"},
+                                                    {"id": "item4", "label": "Item 4", "trailing_icon": "minus"}])}}
+        </div>
+    </div>
+
+    <h2>Navigation Elements</h2>
+    <div class="test_section_container">
+        <div class="test_container">
+            <a href="/navigation_drawer" class="base_link font_title_medium">Navigation Drawer</a>
+        </div>
+        <div class="test_container">
+            <a href="/modal_navigation_drawer" class="base_link font_title_medium">Modal Navigation Drawer</a>
+        </div>
+        <div class="test_container">
+            <a href="/retractable_navigation_drawer" class="base_link font_title_medium">Retractable Navigation Drawer</a>
+        </div>
+    </div>
+
+    <div id="bottom_spacer"></div>
+
+    <style>
+        #toggle_dark_mode_button {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+
+        h1, h2, h3 {
+            position: relative;
+            text-align: center;
+            color: var(--on-surface);
+            transition: var(--dark-mode-animation-time) color;
+            z-index: 0;
+        }
+
+        .test_section_container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            justify-items: center;
+            align-items: start;
+        }
+
+        .test_container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #menu_1 {
+            --menu_width: 200px;
+        }
+
+        #switch_2_label, #switch_3_label_off, #switch_3_label_on {
+            color: var(--on-surface)
+        }
+
+        #text_field_4_trailing_icon, #text_field_5_trailing_icon {
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        #bottom_spacer {
+            width: 100%;
+            height: 15px;
+        }
+    </style>
+
+    <script>
+        document.getElementById("text_field_4_trailing_icon").onclick = (event) => clear_on_click(event, "text_field_4")
+        document.getElementById("text_field_5_trailing_icon").onclick = (event) => clear_on_click(event, "text_field_5")
+
+        function clear_on_click(event, text_field_id)
+        {
+            window.textFieldFunctions.clear(text_field_id)
+            event.preventDefault()
+        }
+    </script>
+{% endblock %}
