@@ -4,19 +4,19 @@
 {% block dependencies %}{% endblock %}
 
 {# Stylesheets #}
-{% do base_namespace.stylesheets_to_load.append("base/constants") %}
-{% do base_namespace.stylesheets_to_load.append("base/classes") %}
-{% do base_namespace.stylesheets_to_load.append("base/base") %}
+{% do base_namespace.stylesheets_to_load.append(["flask_material", "base/constants"]) %}
+{% do base_namespace.stylesheets_to_load.append(["flask_material", "base/classes"]) %}
+{% do base_namespace.stylesheets_to_load.append(["flask_material", "base/base"]) %}
 
 {% if base_namespace.left_bar_style == "navigation_drawer" or base_namespace.left_bar_style == "modal_navigation_drawer" or base_namespace.left_bar_style == "retractable_navigation_drawer" %}
-    {% do base_namespace.stylesheets_to_load.append("components/navigation_drawer") %}
+    {% do base_namespace.stylesheets_to_load.append(["flask_material", "components/navigation_drawer"]) %}
 {% endif %}
 
 {# Scripts #}
-{% do base_namespace.scripts_to_load.append("base/base") %}
+{% do base_namespace.scripts_to_load.append(["flask_material", "base/base"]) %}
 
 {% if base_namespace.left_bar_style == "modal_navigation_drawer" or base_namespace.left_bar_style == "retractable_navigation_drawer" %}
-    {% do base_namespace.scripts_to_load.append("components/navigation_drawer") %}
+    {% do base_namespace.scripts_to_load.append(["flask_material, ""components/navigation_drawer"]) %}
 {% endif %}
 
 <!DOCTYPE html>
@@ -25,11 +25,11 @@
         <meta charset="UTF-8">
 
         {% for stylesheet in base_namespace.stylesheets_to_load %}
-            <link rel="stylesheet" href="{{ url_for('flask_material.static', filename='style/' + stylesheet + '.css') }}">
+            <link rel="stylesheet" href="{{ url_for(stylesheet[0] + '.static', filename='style/' + stylesheet[1] + '.css') }}">
         {% endfor %}
 
         {% for script in base_namespace.scripts_to_load %}
-            <script src="{{ url_for('flask_material.static', filename='js/' + script + '.js') }}" type="module"></script>
+            <script src="{{ url_for(script[0] + '.static', filename='js/' + script[1] + '.js') }}" type="module"></script>
         {% endfor %}
 
         {% if logo_location %}

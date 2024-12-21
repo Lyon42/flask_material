@@ -1,6 +1,8 @@
+import os
 from flask import Flask
 from typing import List
-import os
+from flask_material.util import util
+
 
 def register_functions(app: Flask):
     @app.context_processor
@@ -13,10 +15,16 @@ def register_functions(app: Flask):
             :param classes: The HTML classes that should be added to the svg -> default: None
             :return: The content of the svg file
             """
+
             if svg_location.endswith(".svg"):
-                icon = open(os.path.join(app.static_folder, svg_location)).read()
-                insertIndex = icon.index("<svg") + 4
-                icon = icon[:insertIndex] + " " + ("id=\"" + id + "\"" if id else "") + " " + ("class=\"" + " ".join(classes) + "\"" if classes else "") + " " + icon[insertIndex:]
+                abs_svg_path = util.find_static_source(svg_location)
+
+                if abs_svg_path is None:
+                    return None
+
+                icon = open(abs_svg_path).read()
+                insert_index = icon.index("<svg") + 4
+                icon = icon[:insert_index] + " " + ("id=\"" + id + "\"" if id else "") + " " + ("class=\"" + " ".join(classes) + "\"" if classes else "") + " " + icon[insert_index:]
                 return icon
 
             return None

@@ -2,8 +2,8 @@
     {% for component_name in needed_components %}
         {% if component_name not in base_namespace.loaded_component_dependencies %}
             {% do base_namespace.loaded_component_dependencies.append(component_name) %}
-            {% do base_namespace.scripts_to_load.append("components/" + component_name) %}
-            {% do base_namespace.stylesheets_to_load.append("components/" + component_name) %}
+            {% do base_namespace.scripts_to_load.append(["flask_material", "components/" + component_name]) %}
+            {% do base_namespace.stylesheets_to_load.append(["flask_material", "components/" + component_name]) %}
         {% endif %}
     {% endfor %}
 {% endmacro %}
