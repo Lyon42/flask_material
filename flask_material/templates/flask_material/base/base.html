@@ -16,7 +16,7 @@
 {% do base_namespace.scripts_to_load.append(["flask_material", "base/base"]) %}
 
 {% if base_namespace.left_bar_style == "modal_navigation_drawer" or base_namespace.left_bar_style == "retractable_navigation_drawer" %}
-    {% do base_namespace.scripts_to_load.append(["flask_material, ""components/navigation_drawer"]) %}
+    {% do base_namespace.scripts_to_load.append(["flask_material", "components/navigation_drawer"]) %}
 {% endif %}
 
 <!DOCTYPE html>
