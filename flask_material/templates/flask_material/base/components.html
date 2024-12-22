@@ -88,7 +88,8 @@
     </div>
 {% endmacro %}
 
-{% macro text_field_outline(text_field_id, initial_value = None, is_password = False, label = None, leading_icon = None, trailing_icon = None, supporting_text = None, readonly = False) %}
+{% macro text_field_outline(text_field_id, initial_value = None, is_password = False, label = None, leading_icon = None,
+                            trailing_icon = None, supporting_text = None, readonly = False) %}
     {% do base_namespace.needed_component_dependencies.append('text_field') if 'text_field' not in base_namespace.needed_component_dependencies %}
     <div class="base_text_field_container no-initial-animation">
         <label id="{{ text_field_id }}" class="base_text_field no-initial-animation">
@@ -99,7 +100,7 @@
             {% endif %}
             <input {{ "readonly" if readonly }} type="{{ 'password' if is_password else 'text' }}" id="{{ text_field_id }}_input"
                 value="{{ initial_value if initial_value != None }}" class="base_text_field_input font_body_large no-initial-animation"
-                name="{{ text_field_id }}" oninput="window.textFieldFunctions.on_input('{{ text_field_id }}')">
+                name="{{ text_field_id }}">
             {% if trailing_icon %}
                 {{ icon_svg(trailing_icon, id=text_field_id+"_trailing_icon", classes=["base_text_field_trailing_icon", "no-initial-animation"]) }}
             {% else %}
@@ -115,6 +116,13 @@
             <span id="{{ text_field_id }}_supporting_text" class="base_text_field_supporting_text font_body_small no-initial-animation">{{ supporting_text }}</span>
         {% endif %}
     </div>
+{% endmacro %}
+
+{% macro number_field_outline(number_field_id, initial_value = None, label = None, leading_icon = None, trailing_icon = None,
+                              supporting_text = None, callback = None) %}
+    {{ text_field_outline(number_field_id, initial_value = initial_value|string if initial_value != None else None, label = label,
+                          leading_icon = leading_icon, trailing_icon = trailing_icon, supporting_text = supporting_text,
+                          callback = "function(id){window.text_field_functions.on_input_number(id, " + (callback if callback else 'null') + ")}") }}
 {% endmacro %}
 
 {% macro menu(menu_id, items, selected_item = None, callback = None) %}
@@ -150,8 +158,6 @@
 {% endmacro %}
 
 {% macro drop_down(drop_down_id, items, label = None, selected_item = None, callback = None) %}
-    {% do base_namespace.needed_component_dependencies.append('text_field') if 'text_field' not in base_namespace.needed_component_dependencies %}
-    {% do base_namespace.needed_component_dependencies.append('menu') if 'menu' not in base_namespace.needed_component_dependencies %}
     {% do base_namespace.needed_component_dependencies.append('drop_down') if 'drop_down' not in base_namespace.needed_component_dependencies %}
 
     <div id="{{ drop_down_id }}" class="base_drop_down_container">
