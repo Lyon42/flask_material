@@ -33,7 +33,7 @@
         {% endfor %}
 
         {% if logo_location %}
-            <link rel="icon" type="image/x-icon" href="{{ url_for('flask_material.static', filename=logo_location) }}">
+            <link rel="icon" type="image/x-icon" href="{{ url_for(logo_location[0], filename=logo_location[1]) }}">
         {% endif %}
 
         {% if title %}
