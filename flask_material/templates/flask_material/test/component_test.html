@@ -5,118 +5,179 @@
 {% endblock %}
 
 {% block content %}
-    {{ components.button_filled("toggle_dark_mode_button", "Toggle Dark Mode", click_callback="window.base_functions.toggle_dark_mode()") }}
+    {{ components.button_filled("toggle_dark_mode_button", label="Toggle Dark Mode") }}
 
-    <h1>Flask Material Design Components</h1>
+    <h1>Flask Material Components</h1>
     <h2>Button</h2>
     <div class="test_section_container">
         <div class="test_container">
-            <h3>Elevated Button</h3>
-            {{ components.button_elevated("button_1", "Elevated Button") }}
+            <h3>Elevated</h3>
+            {{ components.button_elevated("button_elevated", label="Elevated Button", icon="plus") }}
         </div>
         <div class="test_container">
-            <h3>Elevated Button with icon</h3>
-            {{ components.button_elevated("button_2", "Elevated Button", icon="plus") }}
+            <h3>Filled</h3>
+            {{ components.button_filled("button_filled", label="Filled Button", icon="plus") }}
         </div>
         <div class="test_container">
-            <h3>Filled Button</h3>
-            {{ components.button_filled("button_3", "Filled Button") }}
+            <h3>Filled Tonal</h3>
+            {{ components.button_filled_tonal("button_filled_tonal", label="Filled Tonal Button", icon="plus") }}
         </div>
         <div class="test_container">
-            <h3>Filled Button with icon</h3>
-            {{ components.button_filled("button_4", "Filled Button", icon="plus") }}
+            <h3>Outlined</h3>
+            {{ components.button_outlined("button_outlined", label="Outlined Button", icon="plus") }}
+        </div>
+
+        <div class="test_container">
+            <h3>Elevated Disabled</h3>
+            {{ components.button_elevated("button_elevated_disabled", label="Elevated Button", icon="plus") }}
         </div>
         <div class="test_container">
-            <h3>Outlined Button</h3>
-            {{ components.button_outlined("button_5", "Outlined Button") }}
+            <h3>Filled Disabled</h3>
+            {{ components.button_filled("button_filled_disabled", label="Filled Button", icon="plus") }}
         </div>
         <div class="test_container">
-            <h3>Outlined Button with icon</h3>
-            {{ components.button_outlined("button_6", "Outlined Button", icon="plus") }}
+            <h3>Filled Tonal Disabled</h3>
+            {{ components.button_filled("button_filled_tonal_disabled", label="Filled Tonal Button", icon="plus") }}
         </div>
         <div class="test_container">
-            <h3>Floating Action Button Small</h3>
-            {{ components.button_floating_action("button_7", "search", size="small") }}
+            <h3>Outlined Disabled</h3>
+            {{ components.button_outlined("button_outlined_disabled", label="Outlined Button", icon="plus") }}
+        </div>
+
+        <div class="test_container">
+            <h3>Floating Action Small</h3>
+            {{ components.button_floating_action("button_7", icon="search", size="small") }}
         </div>
         <div class="test_container">
-            <h3>Floating Action Button Medium</h3>
-            {{ components.button_floating_action("button_8", "search", size="medium") }}
+            <h3>Floating Action Medium</h3>
+            {{ components.button_floating_action("button_8", icon="search", size="medium") }}
         </div>
         <div class="test_container">
-            <h3>Floating Action Button Large</h3>
-            {{ components.button_floating_action("button_9", "search", size="large") }}
+            <h3>Floating Action Large</h3>
+            {{ components.button_floating_action("button_9", icon="search", size="large") }}
         </div>
     </div>
 
     <h2>Switch</h2>
     <div class="test_section_container">
         <div class="test_container">
-            <h3>Simple Switch</h3>
+            <h3>Simple</h3>
             {{ components.switch("switch_1") }}
         </div>
         <div class="test_container">
-            <h3>Switch with static label</h3>
-            {{ components.switch("switch_2", labels=["Label",]) }}
+            <h3>Static icon</h3>
+            {{ components.switch("switch_2", icons=["light_mode",]) }}
         </div>
         <div class="test_container">
-            <h3>Switch with dynamic label</h3>
-            {{ components.switch("switch_3", labels=["Off", "On"]) }}
+            <h3>Dynamic icon</h3>
+            {{ components.switch("switch_3", icons=["light_mode", "dark_mode"]) }}
         </div>
         <div class="test_container">
-            <h3>Switch with static icon</h3>
-            {{ components.switch("switch_4", icons=["light_mode",]) }}
-        </div>
-        <div class="test_container">
-            <h3>Switch with dynamic icon</h3>
-            {{ components.switch("switch_5", icons=["light_mode", "dark_mode"]) }}
-        </div>
-        <div class="test_container">
-            <h3>Switch with only checked icon</h3>
-            {{ components.switch("switch_6", icons=[None, "dark_mode"]) }}
+            <h3>Only checked icon</h3>
+            {{ components.switch("switch_4", icons=[None, "dark_mode"]) }}
         </div>
     </div>
 
     <h2>Text Field</h2>
     <div class="test_section_container">
         <div class="test_container">
-            <h3>Outlined Text Field</h3>
-            {{ components.text_field_outline("text_field_1") }}
+            <h3>Filled</h3>
+            {{ components.text_field_filled("text_field_filled") }}
         </div>
         <div class="test_container">
-            <h3>Outlined Text Field with label</h3>
-            {{ components.text_field_outline("text_field_2", label="Test") }}
+            <h3>Filled with Icons</h3>
+            {{ components.text_field_filled("text_field_filled_icons", icons=["search", "close"]) }}
         </div>
         <div class="test_container">
-            <h3>Outlined Text Field with label and leading icon</h3>
-            {{ components.text_field_outline("text_field_3", label="Label text", leading_icon="search") }}
+            <h3>Filled with Supporting Text</h3>
+            {{ components.text_field_filled("text_field_filled_supporting_text", supporting_text = "Supporting Text") }}
         </div>
         <div class="test_container">
-            <h3>Outlined Text Field with label and trailing icon</h3>
-            {{ components.text_field_outline("text_field_4", label="Label text", trailing_icon="close") }}
+            <h3>Filled with Char Count</h3>
+            {{ components.text_field_filled("text_field_filled_char_count", show_char_count = True) }}
         </div>
         <div class="test_container">
-            <h3>Outlined Text Field with label, leading icon and trailing icon</h3>
-            {{ components.text_field_outline("text_field_5", label="Label text", leading_icon="search", trailing_icon="close") }}
+            <h3>Filled with Error</h3>
+            {{ components.text_field_filled("text_field_filled_error") }}
         </div>
-        <div class="test_container" style="translate: 0 20px;">
-            <h3>Outlined Text Field with supporting text</h3>
-            {{ components.text_field_outline("text_field_6", supporting_text="Supporting text") }}
+        <div class="test_container">
+            <h3>Filled Disabled</h3>
+            {{ components.text_field_filled("text_field_filled_disabled", icons=["search", "close"], supporting_text = "Supporting Text") }}
+        </div>
+        <div class="test_container">
+            <h3>Filled Text Area</h3>
+            {{ components.text_field_filled("text_area_filled", input_type = "textarea") }}
+        </div>
+        <div class="test_container">
+            <h3>Filled Number Field</h3>
+            {{ components.text_field_filled("number_field_filled", input_type = "number") }}
+        </div>
+    
+        <div class="test_container">
+            <h3>Outlined</h3>
+            {{ components.text_field_outlined("text_field_outlined") }}
+        </div>
+        <div class="test_container">
+            <h3>Outlined with Icons</h3>
+            {{ components.text_field_outlined("text_field_outlined_icons", icons=["search", "close"]) }}
+        </div>
+        <div class="test_container">
+            <h3>Outlined with Supporting Text</h3>
+            {{ components.text_field_outlined("text_field_outlined_supporting_text", supporting_text = "Supporting Text") }}
+        </div>
+        <div class="test_container">
+            <h3>Outlined with Char Count</h3>
+            {{ components.text_field_outlined("text_field_outlined_char_count", show_char_count = True) }}
+        </div>
+        <div class="test_container">
+            <h3>Outlined with Error</h3>
+            {{ components.text_field_outlined("text_field_outlined_error") }}
+        </div>
+        <div class="test_container">
+            <h3>Outlined Disabled</h3>
+            {{ components.text_field_outlined("text_field_outlined_disabled", icons=["search", "close"], supporting_text = "Supporting Text") }}
+        </div>
+        <div class="test_container">
+            <h3>Outlined Text Area</h3>
+            {{ components.text_field_outlined("text_area_outlined", input_type = "textarea") }}
+        </div>
+        <div class="test_container">
+            <h3>Outlined Number Field</h3>
+            {{ components.text_field_outlined("number_field_outlined", input_type = "number") }}
         </div>
     </div>
 
     <h2>Menu and Drop-Down</h2>
     <div class="test_section_container">
+
         <div class="test_container">
             <h3>Menu</h3>
-            {{ components.menu("menu_1", [{"id": "item1", "label": "Item 1"},
-                                          {"id": "item2", "label": "Item 2", "leading_icon": None, "trailing_icon": None},
-                                          {"id": "item3", "label": "Item 3", "leading_icon": "plus", "trailing_icon": "minus"},
-                                          {"id": "item4", "label": "Item 4", "trailing_icon": "minus"}], selected_item = "item3",
-                               callback = "function(item_id) {alert(item_id)}")}}
+            {{ components.menu("menu_1", items = [{"id": "item1", "label": "Item 1"},
+                                                  {"id": "item2", "label": "Item 2", "leading_icon": None, "trailing_icon": None},
+                                                  {"id": "item3", "label": "Item 3", "leading_icon": "plus", "trailing_icon": "minus"},
+                                                  "divider",
+                                                  {"id": "item4", "label": "Item 4", "trailing_icon": "minus"}])}}
         </div>
+        <div class="test_container">
+            <h3>Menu Disabled</h3>
+            {{ components.menu("menu_2", items = [{"id": "item1", "label": "Item 1"},
+                                                  {"id": "item2", "label": "Item 2", "leading_icon": None, "trailing_icon": None},
+                                                  {"id": "item3", "label": "Item 3", "leading_icon": "plus", "trailing_icon": "minus"},
+                                                  "divider",
+                                                  {"id": "item4", "label": "Item 4", "trailing_icon": "minus"}])}}
+        </div>
+
         <div class="test_container">
             <h3>Drop-Down</h3>
             {{ components.drop_down("drop_down_1", [{"id": "item1", "label": "Item 1"},
+                                                    {"id": "item2", "label": "Item 2", "leading_icon": None, "trailing_icon": None},
+                                                    {"id": "item3", "label": "Item 3", "leading_icon": "plus", "trailing_icon": "minus"},
+                                                    {"id": "item4", "label": "Item 4", "trailing_icon": "minus"}])}}
+        </div>
+
+        <div class="test_container">
+            <h3>Drop-Down Disabled</h3>
+            {{ components.drop_down("drop_down_2", [{"id": "item1", "label": "Item 1"},
                                                     {"id": "item2", "label": "Item 2", "leading_icon": None, "trailing_icon": None},
                                                     {"id": "item3", "label": "Item 3", "leading_icon": "plus", "trailing_icon": "minus"},
                                                     {"id": "item4", "label": "Item 4", "trailing_icon": "minus"}])}}
@@ -149,13 +210,13 @@
             position: relative;
             text-align: center;
             color: var(--on-surface);
-            transition: var(--dark-mode-animation-time) color;
+            transition: var(--animation-duration-dark-mode) color;
             z-index: 0;
         }
 
         .test_section_container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             justify-items: center;
             align-items: start;
         }
@@ -166,12 +227,8 @@
             align-items: center;
         }
 
-        #menu_1 {
-            --menu_width: 200px;
-        }
-
-        #switch_2_label, #switch_3_label_off, #switch_3_label_on {
-            color: var(--on-surface)
+        #menu_1, #menu_2 {
+            --menu-width: 200px;
         }
 
         #text_field_4_trailing_icon, #text_field_5_trailing_icon {
@@ -186,13 +243,44 @@
     </style>
 
     <script>
-        document.getElementById("text_field_4_trailing_icon").onclick = (event) => clear_on_click(event, "text_field_4")
-        document.getElementById("text_field_5_trailing_icon").onclick = (event) => clear_on_click(event, "text_field_5")
+        window.addEventListener("fm_init", () => {
+            let fm_components = document.getElementsByClassName("fm_component")
 
-        function clear_on_click(event, text_field_id)
-        {
-            window.text_field_functions.clear(text_field_id)
-            event.preventDefault()
-        }
+            for(let i = 0; i < fm_components.length; i++)
+            {
+                if(fm_components[i].id.includes("disabled"))
+                {
+                    fm_components[i].fm.enabled = false
+                }
+
+                if(fm_components[i].fm.type === "button")
+                {
+                    fm_components[i].fm.on_click = () => console.log(fm_components[i].id)
+                }
+            }
+
+            let toggle_dark_mode_button = document.getElementById("toggle_dark_mode_button")
+            toggle_dark_mode_button.fm.on_click = window.base_functions.toggle_dark_mode
+
+            let switch_3 = document.getElementById("switch_3")
+            switch_3.fm.enabled = false
+
+            let text_field_filled_error = document.getElementById("text_field_filled_error")
+            text_field_filled_error.fm.error = true
+
+            let text_field_outlined_error = document.getElementById("text_field_outlined_error")
+            text_field_outlined_error.fm.error = true
+
+            let menu_1 = document.getElementById("menu_1")
+            menu_1.fm.selected_item = "item2"
+
+            let menu_2 = document.getElementById("menu_2")
+            menu_2.fm.selected_item = "item2"
+            menu_2.fm.enabled = false
+
+            let drop_down2 = document.getElementById("drop_down_2")
+            drop_down2.fm.selected_item = "item3"
+            drop_down2.fm.enabled = false
+        })
     </script>
 {% endblock %}

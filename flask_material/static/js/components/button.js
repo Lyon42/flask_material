@@ -1,4 +1,4 @@
-window.addEventListener("load", init)
+window.addEventListener("fm_component_init", init)
 
 function init()
 {
@@ -6,20 +6,30 @@ function init()
 
     for(let i = 0; i < elements.length; i++)
     {
-        let keys = elements[i].attributes["keys"]
-        let click_callback = elements[i].onclick
+        // Add Elements
+        elements[i].fm.elements.icon = document.querySelector(`#${elements[i].id} .base_button_icon`)
+        elements[i].fm.elements.label = document.querySelector(`#${elements[i].id} .base_button_label`)
 
-        if(keys && keys.value && click_callback)
+        // Add Button Attributes and Methods
+        elements[i].fm.type = "button"
+        elements[i].fm.click = () => elements[i].click()
+        elements[i].fm.on_click = (e, button) => {}
+
+        // Add Event Listeners
+        elements[i].addEventListener("click", (e) =>
         {
-            keys = keys.value.substring(1, keys.value.length-1).replaceAll(/( )|(')/g, "").split(",")
-
-            window.addEventListener("keyup", (event) =>
+            if(elements[i].fm.enabled)
             {
-                if(keys.includes(event.code))
-                {
-                    click_callback.apply(elements[i])
-                }
-            })
-        }
+                elements[i].fm.on_click(e, elements[i])
+            }
+        })
+
+        window.addEventListener("keydown", (e) =>
+        {
+            if(document.activeElement === elements[i] && e.code === "Enter")
+            {
+                elements[i].fm.click()
+            }
+        })
     }
 }

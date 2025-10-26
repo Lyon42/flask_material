@@ -1,155 +1,360 @@
-:root {
-    --text-field-width: 240px;
-    --text-field-height: 56px;
-    --text-field-focus-animation-time: 0.2s;
-    --text-field-label-background-color: var(--surface);
-}
-
-.base_text_field_container {
+/* Base Text Field - Enabled */
+.base_text_field {
+    position: relative;
     width: fit-content;
     height: fit-content;
+    outline: none;
+    --text-field-width: 240px;
+    --text-field-height: 56px;
+    --text-field-container-color: var(--surface);
+    --text-field-font-size: calc(16 * var(--sp));
+    --text-field-label-scale: calc(12 / 16);
+    --animation-duration-text-field-focus: 0.2s;
 }
 
-.base_text_field {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    justify-content: start;
+.base_text_field_inner {
+    position: relative;
+    display: flex;
+    flex-direction: row;
     align-items: center;
+    cursor: text;
     width: var(--text-field-width);
     height: var(--text-field-height);
-    outline: var(--outline) 1px solid;
-    outline-offset: -1px;
-    background-color: transparent;
-    border-radius: var(--corner-extra-small);
-    cursor: text;
 }
 
-.base_text_field:hover {
-    outline-color: var(--on-surface);
-}
-
-.base_text_field:has(> .base_text_field_input:focus) {
-    outline: var(--primary) 2px solid;
-    outline-offset: -2px;
-}
-
-.base_text_field_input_wrapper {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-}
-
-.base_text_field_leading_icon {
+.base_text_field_icon_leading, .base_text_field_icon_trailing, .base_text_field_error_icon {
     width: 24px;
     height: 24px;
+    fill: var(--on-surface-variant);
+    transition: var(--animation-duration-dark-mode) fill;
+}
+
+.base_text_field_icon_leading {
     margin-left: 12px;
-    margin-right: 16px;
-    grid-row-start: 1;
-    grid-column-start: 1;
-    z-index: 1;
-    fill: var(--on-surface-variant);
-    transition: var(--dark-mode-animation-time) fill;
 }
 
-.base_text_field_left_spacer {
-    width: 16px;
-    height: 100%;
-    grid-row-start: 1;
-    grid-column-start: 1;
-}
-
-.base_text_field_input {
-    position: relative;
-    width: 100%;
-    max-width: 100%;
-    height: calc(100% - 4px);
-    padding: 0;
-    background-color: inherit;
-    border: 0;
-    outline: none;
-    color: var(--on-surface);
-    caret-color: var(--primary);
-    grid-row-start: 1;
-    grid-column-start: 2;
-    grid-column-end: 3;
-    transition: var(--dark-mode-animation-time) color;
-}
-
-.base_text_field_input:-webkit-autofill {
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: var(--on-surface);
-}
-
-.base_text_field_trailing_icon {
-    width: 24px;
-    height: 24px;
-    margin-left: 16px;
+.base_text_field_icon_trailing, .base_text_field_error_icon {
     margin-right: 12px;
-    grid-row-start: 1;
-    grid-column-start: 3;
-    z-index: 1;
-    fill: var(--on-surface-variant);
-    transition: var(--dark-mode-animation-time) fill;
 }
 
-.base_text_field_right_spacer {
-    width: 16px;
+.base_text_field_input_container {
+    position: relative;
     height: 100%;
-    grid-row-start: 1;
-    grid-column-start: 3;
-}
-
-.base_text_field_content_wrapper {
-    display: inline;
-    width: 100%;
-    height: 100%;
-    grid-row-start: 1;
-    grid-row-end: 2;
-    grid-column-start: 1;
-    grid-column-end: 4;
+    margin: 0 16px 0 16px;
+    flex-grow: 1;
 }
 
 .base_text_field_label {
-    position: relative;
-    display: block;
+    position: absolute;
+    top: 0;
     width: fit-content;
-    height: 24px;
-    left: 16px;
-    top: calc((var(--text-field-height) - 24px) / 2);
-    color: var(--on-surface-variant);
-    transition: var(--dark-mode-animation-time) color, var(--dark-mode-animation-time) background-color, var(--text-field-focus-animation-time) translate, var(--text-field-focus-animation-time) font-size, var(--text-field-focus-animation-time) height, var(--text-field-focus-animation-time) line-height;
+    font-size: calc(var(--text-field-font-size) * var(--text-field-label-scale)) !important;
+    text-align: center;
+    user-select: none;
+    transition: var(--animation-duration-text-field-focus) font-size, var(--animation-duration-text-field-focus) transform,
+                var(--animation-duration-hover) color;
 }
 
-.base_text_field:hover .base_text_field_content_wrapper .base_text_field_label {
+.color_scheme_toggling .base_text_field_label {
+    transition: var(--animation-duration-text-field-focus) font-size, var(--animation-duration-dark-mode) color !important;
+}
+
+.base_text_field:not([input_type="textarea"]) .base_text_field_label {
+    height: calc((var(--text-field-height) - 16px) * var(--text-field-label-scale) / (1 + var(--text-field-label-scale))) !important;
+    line-height: calc((var(--text-field-height) - 16px) * var(--text-field-label-scale) / (1 + var(--text-field-label-scale))) !important;
+}
+
+.base_text_field_input {
+    position: absolute;
+    width: 100%;
+    height: calc((var(--text-field-height) - 16px) / (1 + var(--text-field-label-scale)));
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: none;
+    background-color: transparent;
+    font-size: var(--text-field-font-size) !important;
+    flex-grow: 1;
+    cursor: inherit;
     color: var(--on-surface);
+    caret-color: var(--primary);
+    resize: none;
+    transition: var(--animation-duration-dark-mode) color, var(--animation-duration-dark-mode) caret-color;
 }
 
-.base_text_field_label_offset {
-    translate: 36px 0;
-}
-
-.base_text_field_label_populated, .base_text_field_input:focus ~ .base_text_field_content_wrapper .base_text_field_label,
-.base_drop_down_container .base_text_field_label
-{
-    translate: -4px calc(12px - (8px + var(--text-field-height) / 2));
-    font-size: calc(12 * var(--sp)) !important;
-    height: 16px;
-    left: 12px;
-    line-height: 16px !important;
-    background-color: var(--text-field-label-background-color);
-    padding: 0 4px 0 4px;
-    border-radius: var(--corner-extra-small);
-}
-
-.base_text_field_input:focus ~ .base_text_field_content_wrapper .base_text_field_label {
-    color: var(--primary);
-}
-
-.base_text_field_supporting_text {
-    position: relative;
-    display: block;
-    width: calc(100% - 32px);
+.base_text_field_supporting_text_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
     margin: 4px 16px 0 16px;
+    width: calc(100% - 32px);
+}
+
+.base_text_field_supporting_text, .base_text_field_char_count {
     color: var(--on-surface-variant);
+    user-select: none;
+    transition: var(--animation-duration-dark-mode) color;
+}
+
+/* Base Text Field - Disabled */
+.base_text_field:is(.disabled) {
+    pointer-events: none;
+}
+
+.disabled .base_text_field_input::-webkit-scrollbar-thumb {
+    background-color: rgb(from var(--secondary) r g b / 38%) !important;
+}
+
+.disabled .base_text_field_label,
+.disabled .base_text_field_input,
+.disabled .base_text_field_supporting_text,
+.disabled .base_text_field_char_count {
+    color: rgb(from var(--on-surface) r g b / 38%) !important;
+}
+
+.disabled .base_text_field_icon_leading,
+.disabled .base_text_field_icon_trailing {
+    fill: rgb(from var(--on-surface) r g b / 38%) !important;
+}
+
+/* Base Text Field - Focused */
+.base_text_field:not(:is(.error)):has(.base_text_field_input:focus-visible) .base_text_field_label {
+    color: var(--primary) !important;
+}
+
+/* Base Text Field - Error */
+.error .base_text_field_label,
+.error .base_text_field_supporting_text {
+    color: var(--error) !important;
+    caret-color: var(--error) !important;
+}
+
+.base_text_field:is(.error):hover .base_text_field_label {
+    color: var(--on-error-container) !important;
+}
+
+.error .base_text_field_input {
+    caret-color: var(--error) !important;
+}
+
+.base_text_field_error_icon {
+    fill: var(--error);
+    display: none;
+    transition: var(--animation-duration-hover) fill;
+}
+
+.color_scheme_toggling .base_text_field_error_icon {
+    transition: var(--animation-duration-dark-mode) fill !important;
+}
+
+.base_text_field:hover .base_text_field_error_icon {
+    fill: var(--on-error-container);
+}
+
+.error .base_text_field_icon_trailing {
+    display: none !important;
+}
+
+.error .base_text_field_error_icon {
+    display: unset !important;
+}
+
+/* Base Text Field - Text Area */
+.base_text_field[input_type="textarea"] {
+    --text-field-height: 200px !important;
+}
+
+.base_text_field[input_type="textarea"] .base_text_field_label {
+    height: calc((56px - 16px) * var(--text-field-label-scale) / (1 + var(--text-field-label-scale))) !important;
+    line-height: calc((56px - 16px) * var(--text-field-label-scale) / (1 + var(--text-field-label-scale))) !important;
+}
+
+.base_text_field[input_type="textarea"] .base_text_field_input_container {
+    margin: 0 13px 0 16px;
+}
+
+.base_text_field_input::-webkit-scrollbar {
+    width: 3px;
+}
+
+.base_text_field_input::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.base_text_field_input::-webkit-scrollbar-thumb {
+    border-radius: var(--corner-full);
+}
+
+.base_text_field_input::-webkit-scrollbar-thumb:hover {
+    cursor: default !important;
+}
+
+/* Filled Text Field - Enabled */
+.base_text_field_inner_filled {
+    padding: 8px 0 8px 0;
+    box-sizing: border-box;
+    background-color: var(--surface-container-highest);
+    border-radius: var(--corner-extra-small) var(--corner-extra-small) 0 0;
+    transition: var(--animation-duration-hover) background-color;
+}
+
+.color_scheme_toggling .base_text_field_inner_filled {
+    transition: var(--animation-duration-dark-mode) background-color;
+}
+
+.color_scheme_toggling .base_text_field_inner_filled {
+    transition: var(--animation-duration-dark-mode) background-color;
+}
+
+.base_text_field_label_filled {
+    color: var(--on-surface-variant);
+    transform-origin: left;
+}
+
+.base_text_field_filled:is(.base_text_field_empty):is(.read_only) .base_text_field_label_filled {
+    transform: translateY(calc((var(--text-field-height) - var(--text-field-font-size)) / 2 - 8px)) scale(calc(1 / var(--text-field-label-scale)));
+}
+
+.base_text_field_filled:is(.base_text_field_empty):not(:has(.base_text_field_input:focus-visible)):not([input_type="textarea"]) .base_text_field_label_filled {
+    transform: translateY(calc((var(--text-field-height) - var(--text-field-font-size)) / 2 - 8px)) scale(calc(1 / var(--text-field-label-scale)));
+}
+
+.base_text_field_filled .base_text_field_input {
+    top: calc((var(--text-field-height) - 16px) * var(--text-field-label-scale) / (1 + var(--text-field-label-scale)));
+}
+
+.base_text_field_filled[input_type="textarea"] .base_text_field_input {
+    top: calc((56px - 16px) * var(--text-field-label-scale) / (1 + var(--text-field-label-scale))) !important;
+    height: calc(var(--text-field-height) - 16px - (56px - 16px) * var(--text-field-label-scale) / (1 + var(--text-field-label-scale))) !important;
+}
+
+.base_text_field_inner_filled:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    bottom: 0;
+    transform-origin: bottom;
+    background-color: var(--on-surface-variant);
+    transition: var(--animation-duration-text-field-focus) background-color, var(--animation-duration-text-field-focus) transform;
+}
+
+.color_scheme_toggling .base_text_field_inner_filled:after {
+    transition: var(--animation-duration-dark-mode) background-color;
+}
+
+/* Filled Text Field - Disabled */
+.disabled .base_text_field_inner_filled {
+    background-color: rgb(from var(--on-surface) r g b / 4%) !important;
+}
+
+.disabled .base_text_field_inner_filled:after {
+    background-color: rgb(from var(--on-surface) r g b / 38%) !important;
+}
+
+/* Filled Text Field - Hovered */
+.base_text_field_filled:not(:is(.error)):not(:has(.base_text_field_input:focus-visible)):hover .base_text_field_inner_filled:after {
+    background-color: var(--on-surface) !important;
+}
+
+.base_text_field_inner_filled:not(:is(.error)):hover {
+    background-color: color-mix(in srgb, var(--surface-container-highest) 100%, var(--on-surface) 8%);
+}
+
+/* Filled Text Field - Focused */
+.base_text_field_filled:has(.base_text_field_input:focus-visible) .base_text_field_inner_filled:after {
+    transform: scaleY(200%);
+}
+
+.base_text_field_filled:not(:is(.error)):has(.base_text_field_input:focus-visible) .base_text_field_inner_filled:after {
+    transform: scaleY(200%);
+    background-color: var(--primary) !important;
+}
+
+/* Filled Text Field - Error */
+.error .base_text_field_inner_filled:after {
+    background-color: var(--error) !important;
+}
+
+/* Outlined Text Field - Enabled */
+.base_text_field_inner_outlined {
+    outline: var(--outline) 1px solid;
+    outline-offset: -1px;
+    border-radius: var(--corner-extra-small);
+    padding: 8px 0 8px 0;
+    box-sizing: border-box;
+    transition: var(--animation-duration-text-field-focus) outline;
+}
+
+.color_scheme_toggling .base_text_field_inner_outlined {
+    transition: var(--animation-duration-dark-mode) outline;
+}
+
+.base_text_field_label_outlined {
+    position: absolute !important;
+    transform-origin: left;
+    transform: translateX(-4px)
+               translateY(calc(-8px - 0.5 * (var(--text-field-height) - 16px) * var(--text-field-label-scale) / (1 + var(--text-field-label-scale))));
+    background-color: var(--text-field-container-color);
+    color: var(--on-surface-variant);
+    padding: 0 4px 0 4px;
+}
+
+.base_text_field_outlined[input_type="textarea"] .base_text_field_label_outlined {
+    transform: translateX(-4px)
+               translateY(calc(-8px - 0.5 * (56px - 16px) * var(--text-field-label-scale) / (1 + var(--text-field-label-scale)))) !important;
+}
+
+.base_text_field_outlined:has(.base_text_field_icon_leading) .base_text_field_label_outlined {
+    transform: translateX(-40px)
+               translateY(calc(-8px - 0.5 * (var(--text-field-height) - 16px) * var(--text-field-label-scale) / (1 + var(--text-field-label-scale))));
+}
+
+.base_text_field_outlined:is(.base_text_field_empty):not(:has(.base_text_field_input:focus-visible)):not([input_type="textarea"]) .base_text_field_label_outlined {
+    background-color: transparent;
+    transform: translateY(calc((var(--text-field-height) - var(--text-field-font-size)) / 2 - 8px))
+               scale(calc(1 / var(--text-field-label-scale)))
+               translateX(-4px);
+}
+
+.base_text_field_outlined .base_text_field_input {
+    top: calc((((var(--text-field-height) - 16px) * var(--text-field-label-scale)) / (2 * (1 + var(--text-field-label-scale)))));
+}
+
+.base_text_field_outlined[input_type="textarea"] .base_text_field_input {
+    top: 0 !important;
+    height: calc(var(--text-field-height) - 16px);
+}
+
+/* Outlined Text Field - Disabled */
+.disabled .base_text_field_inner_outlined {
+    outline-color: rgb(from var(--on-surface) r g b / 12%) !important;
+}
+
+/* Outlined Text Field - Hovered */
+.base_text_field_outlined:hover:not(:is(.error)):not(:has(.base_text_field_input:focus-visible)) .base_text_field_label_outlined {
+    color: var(--on-surface) !important;
+}
+
+.base_text_field_outlined:not(:is(.error)):hover:not(:has(.base_text_field_input:focus-visible)) .base_text_field_inner_outlined {
+    outline-color: var(--on-surface) !important;
+}
+
+/* Outlined Text Field - Focused */
+.base_text_field_outlined:has(.base_text_field_input:focus-visible) .base_text_field_inner_outlined {
+    outline-width: 2px !important;
+}
+
+.base_text_field_outlined:not(:is(.error)):has(.base_text_field_input:focus-visible) .base_text_field_inner_outlined {
+    outline-color: var(--primary) !important;
+}
+
+/* Outlined Text Field - Error */
+.error .base_text_field_inner_outlined {
+    outline-color: var(--error);
+}
+
+.base_text_field:is(.error):hover .base_text_field_inner_outlined {
+    outline-color: var(--on-error-container) !important;
 }

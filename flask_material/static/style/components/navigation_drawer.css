@@ -13,7 +13,7 @@ body:has(#left_side_bar:not(:is(.modal_navigation_drawer))) {
     overflow: hidden;
     transform: translateX(0px);
     z-index: 3;
-    transition: background-color var(--dark-mode-animation-time), transform var(--navigation-drawer-extend-time);
+    transition: background-color var(--animation-duration-dark-mode), transform var(--navigation-drawer-extend-time);
     --left-bar-width: 360px;
 }
 
@@ -69,7 +69,7 @@ body:has(.retractable_navigation_drawer):not(:has(.left_side_bar_extended)), bod
 .base_navigation_drawer_button_active {
     background-color: var(--secondary-container);
     --base-state-layer-color: var(--on-secondary-container);
-    transition: background-color var(--dark-mode-animation-time);
+    transition: background-color var(--animation-duration-dark-mode);
 }
 
 .base_navigation_drawer_button_content {
@@ -86,24 +86,24 @@ body:has(.retractable_navigation_drawer):not(:has(.left_side_bar_extended)), bod
     width: 24px;
     height: 24px;
     fill: var(--on-surface-variant);
-    transition: fill var(--dark-mode-animation-time);
+    transition: fill var(--animation-duration-dark-mode);
 }
 
 .base_navigation_drawer_button_active .base_navigation_drawer_button_icon {
     fill: var(--on-secondary-container);
-    transition: fill var(--dark-mode-animation-time);
+    transition: fill var(--animation-duration-dark-mode);
 }
 
 .base_navigation_drawer_button_label {
     position: absolute;
     margin-left: 52px;
     color: var(--on-surface-variant);
-    transition: color var(--dark-mode-animation-time);
+    transition: color var(--animation-duration-dark-mode);
 }
 
 .base_navigation_drawer_button_active .base_navigation_drawer_button_label {
     color: var(--on-secondary-container);
-    transition: color var(--dark-mode-animation-time);
+    transition: color var(--animation-duration-dark-mode);
 }
 
 .base_navigation_drawer_button_badge {
@@ -111,14 +111,14 @@ body:has(.retractable_navigation_drawer):not(:has(.left_side_bar_extended)), bod
     right: 0;
     margin-right: 24px;
     color: var(--on-surface-variant);
-    transition: color var(--dark-mode-animation-time);
+    transition: color var(--animation-duration-dark-mode);
 }
 
 .base_navigation_drawer_headline {
     position: relative;
     margin: 0 0 16px 28px;
     color: var(--on-surface-variant);
-    transition: color var(--dark-mode-animation-time);
+    transition: color var(--animation-duration-dark-mode);
 }
 
 .base_navigation_drawer_seperator {
@@ -128,7 +128,7 @@ body:has(.retractable_navigation_drawer):not(:has(.left_side_bar_extended)), bod
     border-left: 1px solid var(--on-surface-variant);
     border-right: 1px solid var(--on-surface-variant);
     border-bottom: none;
-    transition: border var(--dark-mode-animation-time);
+    transition: border var(--animation-duration-dark-mode);
 }
 
 #modal_navigation_drawer_scrim {

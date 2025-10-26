@@ -1,44 +1,42 @@
+/* Menu - Enabled */
 :root {
-    --menu_width: auto;
+    --menu-width: auto;
+    --animation-duration-menu-item_selected: 0.2s;
 }
 
-.base_menu_container {
+.base_menu {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     min-width: 112px;
     max-width: 280px;
-    width: var(--menu_width);
+    width: var(--menu-width);
     padding: 8px 0 8px 0;
-    border-radius: 4px;
+    border-radius: var(--corner-extra-small);
     background-color: var(--surface-container);
-    filter: drop-shadow(var(--elevation-level-2));
+    box-shadow: var(--elevation-level-2);
     --base-state-layer-color: var(--on-surface);
-    --state-layer-opacity-hover: 8%;
-    --state-layer-opacity-press: 10%;
-    transition: background-color var(--dark-mode-animation-time);
+    transition: background-color var(--animation-duration-dark-mode);
 }
 
-.base_menu_item_wrapper, .base_menu_item_wrapper_selected {
+.base_menu_item {
     position: relative;
     height: 48px;
     width: calc(100% - 24px);
     padding: 0 12px 0 12px;
+    transition: background-color var(--animation-duration-menu-item_selected);
 }
 
-.base_menu_item_wrapper_selected {
-    background-color: var(--secondary-container);
-    transition: background-color var(--dark-mode-animation-time);
-    --base-state-layer-color: var(--on-secondary-container);
+.color_scheme_toggling {
+    transition: background-color var(--animation-duration-dark-mode);
 }
 
-.base_menu_item {
+.base_menu_item_content {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     width: 100%;
     height: 100%;
-    cursor: pointer;
     user-select: none;
 }
 
@@ -46,7 +44,7 @@
     width: 24px;
     height: 24px;
     fill: var(--on-surface-variant);
-    transition: fill var(--dark-mode-animation-time);
+    transition: fill var(--animation-duration-dark-mode);
 }
 
 .menu_icon_leading {
@@ -57,21 +55,69 @@
     margin-left: 12px;
 }
 
-.base_menu_item_wrapper_selected .menu_icon_leading, .base_menu_item_wrapper_selected .menu_icon_trailing {
-    fill: var(--on-secondary-container) !important;
-    transition: fill var(--dark-mode-animation-time);
-}
-
 .menu_item_inner_spacer {
     margin: auto;
 }
 
-.base_menu_item span {
+.base_menu_item_content span {
     color: var(--on-surface);
-    transition: color var(--dark-mode-animation-time);
+    transition: color var(--animation-duration-dark-mode);
 }
 
-.base_menu_item_wrapper_selected span {
-    color: var(--on-secondary-container) !important;
-    transition: color var(--dark-mode-animation-time);
+.base_menu_divider {
+    width: 100%;
+    height: 1px;
+    margin: 8px 0 8px 0;
+    background-color: var(--surface-variant);
+    transition: var(--animation-duration-dark-mode) background-color;
+}
+
+.selected .base_menu_item_content .menu_icon_leading, .selected .base_menu_item_content .menu_icon_trailing {
+    fill: var(--on-secondary-container) !important;
+    transition: fill var(--animation-duration-dark-mode);
+}
+
+.selected .base_menu_item_content span {
+    color: var(--on-surface) !important;
+    transition: color var(--animation-duration-dark-mode);
+}
+
+/* Menu - Disabled */
+.disabled .base_menu_item:is(.selected) {
+    background-color: rgb(from var(--on-surface) r g b / 12%) !important;
+}
+
+.base_menu:not(:is(.disabled)) .base_menu_item_content {
+    cursor: pointer;
+}
+
+.disabled .base_menu_item_content .menu_icon_leading, .disabled .base_menu_item_content .menu_icon_trailing {
+    fill: rgb(from var(--on-surface) r g b / 38%) !important;
+}
+
+.disabled .base_menu_item_content span {
+    color: rgb(from var(--on-surface) r g b / 38%) !important;
+}
+
+/* Menu Item - Selected */
+.base_menu_item:is(.selected) {
+    background-color: var(--secondary-container);
+    --base-state-layer-color: var(--on-surface);
+}
+
+/* Menu Item - Focused */
+.base_menu_item:focus-visible {
+    outline: none;
+}
+
+.base_menu_item:focus-visible::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    outline: var(--secondary) solid var(--focus-indicator-thickness);
+    outline-offset: var(--focus-indicator-inner-offset);
+    border-radius: var(--corner-medium);
 }

@@ -16,7 +16,8 @@ body {
     background-color: var(--surface);
     overflow-x: hidden;
     overflow-y: scroll;
-    transition: var(--dark-mode-animation-time) background-color, var(--navigation-drawer-extend-time) grid-template-columns;
+    transition: var(--animation-duration-dark-mode) background-color, var(--navigation-drawer-extend-time) grid-template-columns;
+    -webkit-tap-highlight-color: transparent;
     --top-bar-height: 0;
     --bottom-bar-height: 0;
     --left-bar-width: 0;
@@ -30,7 +31,7 @@ body {
 
 ::-webkit-scrollbar-track {
     background-color: var(--surface-dim);
-    transition: var(--dark-mode-animation-time) background-color;
+    transition: var(--animation-duration-dark-mode) background-color;
 }
 
 ::-webkit-scrollbar-corner {
@@ -39,7 +40,7 @@ body {
 
 ::-webkit-scrollbar-thumb {
     background-color: var(--secondary);
-    transition: var(--dark-mode-animation-time) background-color;
+    transition: var(--animation-duration-dark-mode) background-color;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -63,7 +64,7 @@ body {
     top: 0;
     height: var(--top-bar-height);
     z-index: 1;
-    transition: background-color var(--dark-mode-animation-time);
+    transition: background-color var(--animation-duration-dark-mode);
 }
 
 #content_top_spacer {
@@ -106,5 +107,5 @@ body {
     background-color: var(--error);
     color: var(--on-error);
     border-radius: 100px;
-    transition: var(--dark-mode-animation-time) background-color var(--dark-mode-animation-time) color;
+    transition: var(--animation-duration-dark-mode) background-color var(--animation-duration-dark-mode) color;
 }

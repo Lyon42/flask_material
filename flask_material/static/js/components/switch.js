@@ -1,8 +1,6 @@
-import {call_function_by_name} from "../util.js";
+window.addEventListener("fm_component_init", init)
 
-const timeout_map = new Map();
-
-window.addEventListener("load", init)
+const TIMEOUT_MAP = new Map();
 
 function init()
 {
@@ -10,145 +8,120 @@ function init()
 
     for(let i= 0; i < elements.length; i++)
     {
-        let switch_id = elements[i].id
-        let switch_input = document.getElementById(switch_id + "_input")
-        let default_state_function = elements[i].attributes["default_state_function"]
+        // Add Elements
+        elements[i].fm.elements.track = document.querySelector(`#${elements[i].id} .base_switch_track`)
+        elements[i].fm.elements.handle = document.querySelector(`#${elements[i].id} .base_switch_handle`)
+        elements[i].fm.elements.handle_icon_container = document.querySelector(`#${elements[i].id} .base_switch_icon_container`)
+        elements[i].fm.elements.handle_icons = elements[i].fm.elements.handle_icon_container.children
+        elements[i].fm.elements.handle_icon_off = document.querySelector(`#${elements[i].id} .base_switch_icon_off`)
+        elements[i].fm.elements.handle_icon_on = document.querySelector(`#${elements[i].id} .base_switch_icon_on`)
 
-        if(default_state_function)
-        {
-            let default_state = call_function_by_name(elements[i].attributes["default_state_function"].value.toString())
-
-            if(default_state)
+        // Add Switch Attributes and Methods
+        elements[i].fm._toggled = false
+        Object.defineProperty(elements[i].fm, "toggled", {
+            get: () => {return elements[i].fm._toggled},
+            set: (toggled) =>
             {
-                switch_input.checked = default_state
+                let prev_toggled = this._toggled
+                elements[i].fm._toggled = toggled
+                update_switch(elements[i])
+                elements[i].fm.on_toggle(new CustomEvent("toggle", {prev_toggled}), elements[i])
+            }
+        })
+
+        elements[i].fm.toggle = () => {elements[i].fm.toggled = !elements[i].fm.toggled}
+        elements[i].fm.on_toggle = (e, sw) => {}
+
+        // Add Event Listeners
+        elements[i].addEventListener("mousedown", (e) => {press_handle(e, elements[i])})
+        elements[i].addEventListener("mouseup", (e) => {release_handle(e, elements[i])})
+        elements[i].addEventListener("mouseleave", (e) => {cancel_toggle(e, elements[i])})
+        elements[i].addEventListener("dragstart", (e) => {cancel_toggle(e, elements[i])})
+
+        window.addEventListener("keydown", (e) =>
+        {
+            if(document.activeElement === elements[i] && e.code === "Enter")
+            {
+                elements[i].fm.toggle()
+            }
+        })
+
+        // Initial Switch Update
+        update_switch(elements[i], true)
+    }
+}
+
+function update_switch(switch_, skip_animation = false)
+{
+    // Animation
+    if(!skip_animation)
+    {
+        const toggle_duration = parseFloat(getComputedStyle(switch_).getPropertyValue("--animation-duration-switch-toggle"))
+        switch_.classList.add("base_switch_toggling")
+
+        if(TIMEOUT_MAP.has(switch_))
+        {
+            window.clearTimeout(TIMEOUT_MAP.get(switch_))
+            TIMEOUT_MAP.delete(switch_)
+        }
+
+        const id = window.setTimeout(() =>
+        {
+            switch_.classList.remove("base_switch_toggling")
+            TIMEOUT_MAP.delete(switch_)
+        }, toggle_duration * 1000)
+
+        TIMEOUT_MAP.set(switch_, id)
+    }
+
+    switch_.fm.elements.handle.classList.remove("base_switch_handle_on_press")
+    switch_.classList.toggle("base_switch_toggled", switch_.fm.toggled)
+
+    //Icon
+    if(switch_.fm.elements.handle_icon_off || switch_.fm.elements.handle_icon_on)
+    {
+        switch_.fm.elements.handle.classList.remove("base_switch_handle_with_icon")
+
+        if(switch_.fm.elements.handle_icon_off)
+        {
+            switch_.fm.elements.handle_icon_off.style.opacity = switch_.fm.toggled ? "0%" : "100%"
+
+            if(!switch_.fm.toggled)
+            {
+                switch_.fm.elements.handle.classList.add("base_switch_handle_with_icon")
             }
         }
 
-        toggle(switch_id)
-    }
-}
-
-function toggle(switchId, callback = null)
-{
-    const switch_component = document.getElementById(switchId)
-    const input = document.getElementById(switchId + "_input")
-    const track = document.getElementById(switchId + "_track")
-    const thumb = document.getElementById(switchId + "_thumb")
-    const thumb_icons = document.querySelectorAll("#" + switchId + "_thumb svg")
-    const label_off = document.getElementById(switchId + "_label_off")
-    const label_on = document.getElementById(switchId + "_label_on")
-    const icon_off = document.getElementById(switchId + "_icon_off")
-    const icon_on = document.getElementById(switchId + "_icon_on")
-
-    //Animation
-    const animation_duration = parseFloat(getComputedStyle(document.getElementById(switchId)).getPropertyValue("--switch-time").replace("s", ""))
-
-    if(timeout_map.has(switchId))
-    {
-        window.clearTimeout(timeout_map.get(switchId))
-        timeout_map.delete(switchId)
-    }
-
-    track.style.transitionDuration = animation_duration + "s"
-    thumb.style.transitionDuration = animation_duration + "s"
-    thumb_icons.forEach((element) => element.style.transitionDuration = animation_duration + "s")
-
-    const id = window.setTimeout(function()
-    {
-        track.style.transitionDuration = null
-        thumb.style.transitionDuration = null
-        thumb_icons.forEach((element) => element.style.transitionDuration = null)
-
-        timeout_map.delete(switchId)
-    }, animation_duration * 1000)
-
-    timeout_map.set(switchId, id)
-
-    //Label
-    if(label_off)
-    {
-        label_off.style.opacity = input.checked ? "0%" : "100%"
-    }
-
-    if(label_on)
-    {
-        label_on.style.opacity = input.checked ? "100%" : "0%"
-    }
-    
-    //Icon
-    if(icon_off || icon_on)
-    {
-        if(icon_off)
+        if(switch_.fm.elements.handle_icon_on)
         {
-            icon_off.style.opacity = input.checked ? "0%" : "100%"
-        }
+            switch_.fm.elements.handle_icon_on.style.opacity = switch_.fm.toggled ? "100%" : "0%"
 
-        if(icon_on)
-        {
-            icon_on.style.opacity = input.checked ? "100%" : "0%"
-        }
-
-        if(input.checked && icon_on || !input.checked && icon_off)
-        {
-            thumb.classList.add("base_switch_thumb_with_icon")
-        }
-        else
-        {
-            thumb.classList.remove("base_switch_thumb_with_icon")
-        }
-    }
-
-    if(switch_component.classList.contains("useLocalStorage"))
-    {
-        localStorage.setItem(switchId, input.checked)
-    }
-
-    if(callback)
-    {
-        callback(switchId, input.checked)
-    }
-}
-
-function press(event, switchId)
-{
-    if(event.button === 0)
-    {
-        const input = document.getElementById(switchId + "_input")
-        const thumb = document.getElementById(switchId + "_thumb")
-        const switch_checked = input.checked
-
-        if(!switch_checked)
-        {
-            thumb.classList.remove("base_switch_thumb_on_uncheck")
-            thumb.classList.add("base_switch_thumb_on_check")
-        }
-        else
-        {
-            thumb.classList.remove("base_switch_thumb_on_check")
-            thumb.classList.add("base_switch_thumb_on_uncheck")
-        }
-
-        addEventListener("mouseup", () =>
-        {
-            setTimeout(function ()
+            if(switch_.fm.toggled)
             {
-                if(input.checked === switch_checked)
-                {
-                    cancel_toggle(switchId)
-                }
-            }, 0)
-        }, {once: true, capture: false})
+                switch_.fm.elements.handle.classList.add("base_switch_handle_with_icon")
+            }
+        }
     }
-
-    return false;
 }
 
-function cancel_toggle(switchId)
+function press_handle(e, switch_)
 {
-    const thumb = document.getElementById(switchId + "_thumb")
-
-    thumb.classList.remove("base_switch_thumb_on_check")
-    thumb.classList.remove("base_switch_thumb_on_uncheck")
+    if(e.button === 0 && switch_.fm.enabled)
+    {
+        switch_.classList.remove("base_switch_toggling")
+        switch_.fm.elements.handle.classList.add("base_switch_handle_on_press")
+    }
 }
 
-window.switchFunctions = {toggle, press, cancel_toggle}
+function release_handle(e, switch_)
+{
+    if(switch_.fm.elements.handle.classList.contains("base_switch_handle_on_press") && switch_.fm.enabled)
+    {
+        switch_.fm.toggled = !switch_.fm.toggled
+    }
+}
+
+function cancel_toggle(e, switch_)
+{
+    switch_.fm.elements.handle.classList.remove("base_switch_handle_on_press")
+}

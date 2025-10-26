@@ -1,121 +1,203 @@
+/* Switch - Enabled */
 .base_switch {
-    display: flex;
-    align-items: center;
-    width: fit-content;
-    height: fit-content;
-    --switch-time: 0.2s;
-    --press-time: 0.05s;
-}
-
-.base_switch_container {
     position: relative;
     display: inline-block;
-    width: 52px;
-    height: 32px;
+    width: var(--switch-width);
+    height: var(--switch-height);
+    outline: none;
+    cursor: pointer;
+    --animation-duration-switch-toggle: 0.35s;
+    --animation-duration-switch-press: 0.075s;
+    --switch-width: 52px;
+    --switch-height: 32px;
+    --switch-border-width: 2px;
 }
 
-.base_switch_container input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
+/* Track */
 .base_switch_track {
     position: absolute;
-    cursor: pointer;
     width: 100%;
     height: 100%;
     left: 0;
     top: 0;
     background-color: var(--surface-container-highest);
     border-radius: var(--corner-full);
-    outline: var(--outline) solid 2px;
-    outline-offset: -2px;
-    transition: var(--dark-mode-animation-time) background-color, var(--dark-mode-animation-time) outline-color;
+    outline: var(--outline) solid var(--switch-border-width);
+    outline-offset: calc(-1.1 * var(--switch-border-width));
+    transition: var(--animation-duration-switch-toggle) cubic-bezier(0,.53,.53,.99) background-color, var(--animation-duration-switch-toggle) cubic-bezier(0,.53,.53,.99) outline-color;
 }
 
-.base_switch_input:checked ~ .base_switch_track {
-    background-color: var(--primary);
-    outline-color: var(--primary);
+.color_scheme_toggling .base_switch_track {
+    transition: var(--animation-duration-dark-mode) background-color, var(--animation-duration-dark-mode) outline-color;
 }
 
-.base_switch_thumb {
+.base_switch_toggled:not(:is(.disabled)) .base_switch_track {
+    background-color: var(--primary) !important;
+    outline-color: var(--primary) !important;
+}
+
+/* Handle */
+.base_switch_handle {
     position: absolute;
-    display: grid !important;
-    justify-items: center;
-    align-items: center;
-    width: 16px;
-    height: 16px;
-    left: 8px;
-    top: 8px;
+    width: calc(var(--switch-height) - 2 * var(--switch-border-width));
+    aspect-ratio: 1;
+    left: var(--switch-border-width);
+    top: var(--switch-border-width);
+    transform: scale(57.14%);
     background-color: var(--outline);
     background-size: contain;
     background-position: center;
     border-radius: var(--corner-full);
-    cursor: pointer;
-    transition-property: background-color, width, height, translate;
-    transition-duration: var(--dark-mode-animation-time);
+    transition: var(--animation-duration-switch-toggle) cubic-bezier(0,.53,.53,.99) background-color, var(--animation-duration-switch-press) transform;
     overflow: visible;
     --base-state-layer-color: var(--on-surface);
 }
 
-.base_switch_thumb_with_icon {
-    width: 24px;
-    height: 24px;
-    translate: -4px -4px;
+.base_switch_handle::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    transition: var(--animation-duration-hover) background-color;
 }
 
-.base_switch_input:checked ~ .base_switch_thumb {
-    translate: 15px -4px;
-    width: 24px;
-    height: 24px;
-    background-color: var(--on-primary);
-    --base-state-layer-color: var(--primary);
+:not(.color_scheme_toggling) .base_switch_toggling .base_switch_handle {
+    transition: var(--animation-duration-switch-toggle) cubic-bezier(0,.53,.53,.99) background-color, var(--animation-duration-switch-toggle) cubic-bezier(0,1.44,.6,1) transform !important;
 }
 
-.base_switch_input:not(:checked) ~ .base_switch_thumb_on_check  {
-    translate: -6px -6px;
-    width: 28px;
-    height: 28px;
-    transition: width var(--press-time), height var(--press-time), translate var(--press-time);
+.color_scheme_toggling .base_switch_handle {
+    transition: var(--animation-duration-dark-mode) background-color !important;
 }
 
-.base_switch_input:checked ~ .base_switch_thumb_on_uncheck {
-    translate: 13px -6px;
-    width: 28px;
-    height: 28px;
-    transition: width var(--press-time), height var(--press-time), translate var(--press-time);
+.base_switch_toggled:not(:is(.disabled)) .base_switch_handle {
+    background-color: var(--on-primary) !important;
 }
 
-.base_switch_thumb .base_state_layer {
-    width: 40px;
-    height: 40px;
+.base_switch_toggled .base_switch_handle {
+    transform: translateX(calc(var(--switch-width) - var(--switch-height))) scale(85.71%) !important;
+    --base-state-layer-color: var(--primary) !important;
+}
+
+.base_switch_handle_on_press {
+    transform: scale(101%) !important;
+}
+
+.base_switch_toggled .base_switch_handle_on_press  {
+    transform: translateX(calc(var(--switch-width) - var(--switch-height))) scale(101%) !important;
+}
+
+.base_switch_handle_with_icon {
+    transform: scale(85.71%);
+}
+
+.base_switch_handle .base_state_layer {
+    width: 110%;
+    height: 110%;
     padding: 0;
     left: auto;
     border-radius: var(--corner-full);
 }
 
-.base_switch_thumb svg {
-    width: 16px;
-    height: 16px;
-    grid-row-start: 1;
-    grid-column-start: 1;
-    transition-property: opacity, fill;
-    transition-duration: var(--dark-mode-animation-time);
+/* Icons */
+.base_switch_icon_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
 }
 
-.base_switch_label {
-    margin-left: 10px;
-    grid-row-start: 1;
-    grid-column-start: 1;
-    transition: var(--dark-mode-animation-time) color, var(--switch-time) opacity;
-}
-
-.base_switch_icon_off, .base_switch_input:not(:checked) ~ .base_switch_thumb .base_switch_icon {
+.base_switch_icon {
+    position: absolute;
+    width: 66.67%;
+    height: 66.67%;
     fill: var(--surface-container-highest);
+    transition: var(--animation-duration-switch-toggle) opacity, var(--animation-duration-switch-toggle) fill, var(--animation-duration-switch-press) transform;
 }
 
-.base_switch_icon_on, .base_switch_input:checked ~ .base_switch_thumb .base_switch_icon {
-    fill: var(--on-primary-container);
+.base_switch_handle_on_press .base_switch_icon {
+    transform: scale(84.71%);
 }
 
+.base_switch_toggled:is(:not(.disabled)) .base_switch_icon {
+    fill: var(--on-primary-container) !important;
+}
+
+.base_switch_toggling:is(.base_switch_toggled) .base_switch_icon_off {
+    transition: var(--animation-duration-switch-toggle) cubic-bezier(0,1,0,1) opacity, var(--animation-duration-switch-toggle) fill !important;
+}
+
+.base_switch_toggling:is(.base_switch_toggled) .base_switch_icon_on {
+    transition: var(--animation-duration-switch-toggle) cubic-bezier(.7,.36,.44,1.3) opacity, var(--animation-duration-switch-toggle) fill !important;
+}
+
+.base_switch_toggling:is(:not(.base_switch_toggled)) .base_switch_icon_off {
+    transition: var(--animation-duration-switch-toggle) cubic-bezier(.7,.36,.44,1.3) opacity, var(--animation-duration-switch-toggle) fill !important;
+}
+
+.base_switch_toggling:is(:not(.base_switch_toggled)) .base_switch_icon_on {
+    transition: var(--animation-duration-switch-toggle) cubic-bezier(0,1,0,1) opacity, var(--animation-duration-switch-toggle) fill !important;
+}
+
+.color_scheme_toggling .base_switch_icon {
+    transition: var(--animation-duration-dark-mode) fill;
+}
+
+/* Switch - Disabled */
+.base_switch:is(.disabled) {
+    cursor: unset;
+}
+
+/* Track */
+.base_switch:is(.disabled):not(:is(.base_switch_toggled)) .base_switch_track {
+    background-color: rgb(from var(--surface-container-highest) r g b / 12%) !important;
+    outline-color: rgb(from var(--on-surface) r g b / 12%) !important;
+}
+
+.base_switch_toggled:is(.disabled) .base_switch_track {
+    background-color: rgb(from var(--on-surface) r g b / 12%) !important;
+    outline-color: transparent !important;
+}
+
+/* Handle */
+.base_switch:is(.disabled):not(:is(.base_switch_toggled)) .base_switch_handle {
+    background-color: rgb(from var(--on-surface) r g b / 38%) !important;
+}
+
+.base_switch_toggled:is(.disabled) .base_switch_handle {
+    background-color: var(--surface) !important;
+}
+
+/* Icons */
+.base_switch:is(.disabled):not(:is(.base_switch_toggled)) .base_switch_icon {
+    fill: rgb(from var(--surface-container-highest) r g b / 38%) !important;
+}
+
+.base_switch_toggled:is(.disabled) .base_switch_icon {
+    fill: rgb(from var(--on-surface) r g b / 38%) !important;
+}
+
+/* Switch - Hovered */
+.base_switch:not(:is(.disabled)):not(:is(.base_switch_toggled)):hover .base_switch_handle::before {
+    background-color: var(--on-surface-variant) !important;
+}
+
+.base_switch_toggled:not(:is(.disabled)):hover .base_switch_handle::before {
+    background-color: var(--primary-container) !important;
+}
+
+/* Switch - Focused */
+.base_switch:focus-visible {
+    border-radius: var(--corner-full);
+    outline: var(--focus-indicator-thickness) solid var(--secondary);
+    outline-offset: var(--focus-indicator-offset);
+}
+
+.base_switch:not(:is(.disabled)):not(:is(.base_switch_toggled)):focus-visible .base_switch_handle::before {
+    background-color: var(--on-surface-variant) !important;
+}
+
+.base_switch_toggled:not(:is(.disabled)):focus-visible .base_switch_handle::before {
+    background-color: var(--primary-container) !important;
+}

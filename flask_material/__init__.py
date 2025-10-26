@@ -29,8 +29,12 @@ def create_app(config = None):
     return app
 
 def register_routes(app: Flask):
-    @app.route("/")
-    def component():
+    @app.route("/style")
+    def style():
+        return render_template("flask_material/test/style_test.html")
+
+    @app.route("/components")
+    def components():
         return render_template("flask_material/test/component_test.html")
 
     @app.route("/navigation_drawer")

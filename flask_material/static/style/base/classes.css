@@ -1,7 +1,7 @@
 .base_link {
     text-decoration: none;
     color: var(--primary);
-    transition: var(--dark-mode-animation-time) color;
+    transition: var(--animation-duration-dark-mode) color;
 }
 
 .base_link:hover {
@@ -23,6 +23,7 @@
     height: fit-content;
 }
 
+/* Base State Layer */
 .base_state_layer_container {
     display: flex;
     align-items: center;
@@ -38,7 +39,7 @@
     background-color: var(--base-state-layer-color);
     opacity: 0;
     z-index: -1;
-    transition: var(--animation-time-hover) opacity, var(--dark-mode-animation-time) background-color;
+    transition: var(--animation-duration-hover) opacity, var(--animation-duration-dark-mode) background-color;
     pointer-events: none;
     backface-visibility: hidden;
 }
@@ -47,8 +48,16 @@
     opacity: var(--state-layer-opacity-hover);
 }
 
+:focus-visible .base_state_layer_container .base_state_layer, .base_state_layer_focussed {
+    opacity: var(--state-layer-opacity-focus) !important;
+}
+
 .base_state_layer_container:active .base_state_layer, .base_state_layer_pressed {
     opacity: var(--state-layer-opacity-press) !important;
+}
+
+.disabled .base_state_layer {
+    visibility: hidden;
 }
 
 .no-initial-animation {

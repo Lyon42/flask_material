@@ -132,12 +132,19 @@
 /* Style variables */
 :root {
     /* State layer */
-    --state-layer-opacity-hover: 10%;
-    --state-layer-opacity-press: 20%;
+    --state-layer-opacity-hover: 8%;
+    --state-layer-opacity-focus: 12%;
+    --state-layer-opacity-press: 12%;
+    --state-layer-opacity-drag: 20%;
+
+    /* Focus Indicator */
+    --focus-indicator-thickness: 3px;
+    --focus-indicator-offset: 2px;
+    --focus-indicator-inner-offset: -3px;
 
     /* Animation time */
-    --animation-time-hover: 0.3s;
-    --dark-mode-animation-time: 0.2s;
+    --animation-duration-hover: 0.3s;
+    --animation-duration-dark-mode: 2s;
     --navigation-drawer-extend-time: 0.3s;
 
     /* Unit */
@@ -154,15 +161,15 @@
 
     /* Elevation */
     --elevation-level-0: 0 0 0 transparent;
-    --elevation-level-1: 0 1px 1px var(--shadow);
-    --elevation-level-2: 0 2px 2px var(--shadow);
-    --elevation-level-3: 0 3px 3px var(--shadow);
-    --elevation-level-4: 0 4px 4px var(--shadow);
-    --elevation-level-5: 0 5px 5px var(--shadow);
+    --elevation-level-1: 0 0.5px  1px 0.25px var(--shadow);
+    --elevation-level-2: 0 1px    2px 0.5px  var(--shadow);
+    --elevation-level-3: 0 1.5px  3px 0.75px var(--shadow);
+    --elevation-level-4: 0 2.25px 4px 1.5px  var(--shadow);
+    --elevation-level-5: 0 3px    5px 2px    var(--shadow);
 }
 
 /* Color schemes */
-:root, :root.light {
+:root, :root.color_scheme_light {
     --primary: #6750A4;
     --on-primary: #FFFFFF;
     --primary-container: #EADDFF;
@@ -183,15 +190,17 @@
     --surface-container: #F3EDF7;
     --surface-container-high: #ECE6F0;
     --surface-container-highest: #E6E0E9;
+    --surface-variant: #E7E0EC;
     --on-surface: #1C1B1F;
     --on-surface-variant: #49454E;
     --error: #B3261E;
     --on-error: #FFFFFF;
+    --on-error-container: #8C1D18;
     --outline: #79747E;
-    --shadow: #00000070;
+    --shadow: #00000050;
 }
 
-:root.dark {
+:root.color_scheme_dark {
     --primary: #D0BCFF;
     --on-primary: #371E73;
     --primary-container: #4F378B;
@@ -212,12 +221,14 @@
     --surface-container: #211F26;
     --surface-container-high: #2B2930;
     --surface-container-highest: #36343B;
+    --surface-variant: #49454F;
     --on-surface: #E6E1E5;
     --on-surface-variant: #CAC4D0;
     --background: #141218;
     --on-background: #E6E1E5;
     --error: #F2B8B5;
     --on-error: #601410;
+    --on-error-container: #F9DEDC;
     --outline: #938F99;
     --shadow: #00000070;
 }
