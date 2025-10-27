@@ -82,7 +82,7 @@
     <div class="test_section_container">
         <div class="test_container">
             <h3>Filled</h3>
-            {{ components.text_field_filled("text_field_filled") }}
+            {{ components.text_field_filled("text_field_filled", label = "Test") }}
         </div>
         <div class="test_container">
             <h3>Filled with Icons</h3>
@@ -115,7 +115,7 @@
     
         <div class="test_container">
             <h3>Outlined</h3>
-            {{ components.text_field_outlined("text_field_outlined") }}
+            {{ components.text_field_outlined("text_field_outlined", label = "Test") }}
         </div>
         <div class="test_container">
             <h3>Outlined with Icons</h3>
@@ -172,7 +172,7 @@
             {{ components.drop_down("drop_down_1", [{"id": "item1", "label": "Item 1"},
                                                     {"id": "item2", "label": "Item 2", "leading_icon": None, "trailing_icon": None},
                                                     {"id": "item3", "label": "Item 3", "leading_icon": "plus", "trailing_icon": "minus"},
-                                                    {"id": "item4", "label": "Item 4", "trailing_icon": "minus"}])}}
+                                                    {"id": "item4", "label": "Item 4", "trailing_icon": "minus"}], label = "Test") }}
         </div>
 
         <div class="test_container">

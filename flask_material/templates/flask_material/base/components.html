@@ -79,8 +79,8 @@
 {% endmacro %}
 
 {# Input Field #}
-{% macro base_text_field(style_type, text_field_id, classes = [], input_type = "text", icons = None, supporting_text = None,
-                         show_char_count = False, additional_attributes = []) %}
+{% macro base_text_field(style_type, text_field_id, classes = [], input_type = "text", label = None, icons = None,
+                         supporting_text = None, show_char_count = False, additional_attributes = []) %}
     {% do base_namespace.needed_component_dependencies.append('text_field') if 'text_field' not in base_namespace.needed_component_dependencies %}
     <div id="{{ text_field_id }}" class="base_text_field fm_component base_text_field_{{ style_type }} no-initial-animation {{ classes|join(' ') }}"
          input_type="{{ input_type }}">
@@ -89,7 +89,9 @@
                 {{ icon_svg(icons[0], classes=["base_text_field_icon_leading", "no-initial-animation"]) }}
             {% endif %}
             <div class="base_text_field_input_container">
-                <span class="base_text_field_label base_text_field_label_{{ style_type }} font_body_large">Label</span>
+                {% if label %}
+                    <span class="base_text_field_label base_text_field_label_{{ style_type }} font_body_large">{{ label }}</span>
+                {% endif %}
                 {% if input_type == "textarea" %}
                     <textarea class="base_text_field_input font_body_large no-initial-animation" {{ additional_attributes|join(' ') }}
                               type="text" name="{{ text_field_id }}" spellcheck="false" tabindex="0"></textarea>
@@ -114,15 +116,15 @@
     </div>
 {% endmacro %}
 
-{% macro text_field_filled(text_field_id, classes = [], input_type = "text", icons = None, supporting_text = None,
-                           show_char_count = False, additional_attributes = []) %}
-    {{ base_text_field("filled", text_field_id, classes = classes, input_type = input_type, icons = icons, supporting_text = supporting_text,
+{% macro text_field_filled(text_field_id, classes = [], input_type = "text", label = None, icons = None,
+                           supporting_text = None, show_char_count = False, additional_attributes = []) %}
+    {{ base_text_field("filled", text_field_id, classes = classes, input_type = input_type, label = label, icons = icons, supporting_text = supporting_text,
                        show_char_count = show_char_count, additional_attributes = additional_attributes) }}
 {% endmacro %}
 
-{% macro text_field_outlined(text_field_id, classes = [], input_type = "text", icons = None, supporting_text = None,
-                           show_char_count = False, additional_attributes = []) %}
-    {{ base_text_field("outlined", text_field_id, classes = classes, input_type = input_type, icons = icons, supporting_text = supporting_text,
+{% macro text_field_outlined(text_field_id, classes = [], input_type = "text", label = None, icons = None,
+                           supporting_text = None, show_char_count = False, additional_attributes = []) %}
+    {{ base_text_field("outlined", text_field_id, classes = classes, input_type = input_type, label = label, icons = icons, supporting_text = supporting_text,
                        show_char_count = show_char_count, additional_attributes = additional_attributes) }}
 {% endmacro %}
 
@@ -166,7 +168,7 @@
 {% macro drop_down(drop_down_id, items, label = None, selected_item = None, callback = None) %}
     {% do base_namespace.needed_component_dependencies.append('drop_down') if 'drop_down' not in base_namespace.needed_component_dependencies %}
     <div id="{{ drop_down_id }}" class="base_drop_down fm_component">
-        {{ text_field_filled(drop_down_id + "_text_field", ["base_drop_down_text_field"], icons = [None, "arrow_drop_down"]) }}
+        {{ text_field_filled(drop_down_id + "_text_field", ["base_drop_down_text_field"], label = label, icons = [None, "arrow_drop_down"]) }}
         {{ menu(drop_down_id + "_menu", ["base_drop_down_menu"],items) }}
     </div>
 {% endmacro %}
