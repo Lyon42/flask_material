@@ -278,6 +278,9 @@
             menu_2.fm.selected_item = "item2"
             menu_2.fm.enabled = false
 
+            let drop_down1 = document.getElementById("drop_down_1")
+            drop_down1.fm.on_item_selected = () => alert(drop_down1.fm.selected_item)
+
             let drop_down2 = document.getElementById("drop_down_2")
             drop_down2.fm.selected_item = "item3"
             drop_down2.fm.enabled = false

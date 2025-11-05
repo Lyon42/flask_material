@@ -38,6 +38,7 @@ function init()
             }
         })
 
+        elements[i].fm.on_item_selected = (e, drop_down) => {}
         elements[i].fm.elements.text_field.fm.read_only = true
 
         // Add Event Listeners
@@ -56,6 +57,8 @@ function init()
                     break
                 }
             }
+
+            elements[i].fm.on_item_selected(e, elements[i])
         }
 
         window.addEventListener("keydown", (e) =>
