@@ -32,7 +32,7 @@ function init()
 
         elements[i].fm.on_change = (e, tf) => {}
         elements[i].fm.on_escape = (e, tf) => {document.activeElement.blur()}
-        elements[i].fm.on_return = (e, tf) => {document.activeElement.blur()}
+        elements[i].fm.on_return = (e, tf) => {if(elements[i].fm.input_type !== "textarea") document.activeElement.blur()}
 
         elements[i].fm._text = elements[i].fm.elements.input.value
         Object.defineProperty(elements[i].fm, "text", {
@@ -75,13 +75,14 @@ function init()
                 return
             }
 
-            if(e.key === "Escape")
+            switch(e.key)
             {
+            case "Escape":
                 elements[i].fm.on_escape(new CustomEvent("escape"), elements[i])
-            }
-            else if(e.key === "Enter")
-            {
+                break
+            case "Enter":
                 elements[i].fm.on_return(new CustomEvent("return"), elements[i])
+                break
             }
         })
 
@@ -158,6 +159,13 @@ function standard_formatter(text_field, data, input_type, settings = {})
         case "insertText":
         case "insertFromPaste":
             next_selection = [cur_selection[0] + data.length, cur_selection[0] + data.length]
+            break
+        case "insertLineBreak":
+            if(text_field.fm.input_type === "textarea")
+            {
+                data = '\n'
+                next_selection = [cur_selection[0]+1, cur_selection[0]+1]
+            }
             break
         case "deleteContentBackward":
             cur_selection[0] = no_selection ? Math.max(cur_selection[0] - 1, 0) : cur_selection[0]
